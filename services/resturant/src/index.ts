@@ -3,6 +3,7 @@ import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import resturantRoutes from "./routes/resturant.js";
 import itemRoutes from "./routes/menuitems.js";
+import cartRoutes from "./routes/cart.js"
 import cors from "cors";
 
 dotenv.config();
@@ -16,7 +17,8 @@ app.use(express.json());
 const PORT = process.env.PORT || 5001;
 
 app.use("/api/resturant",resturantRoutes);
-app.use("/api/iten",itemRoutes);
+app.use("/api/item",itemRoutes);
+app.use("/api/cart", cartRoutes);
 
 app.listen(PORT, ()=>{
     console.log(`Auth service is running on port ${PORT}`);

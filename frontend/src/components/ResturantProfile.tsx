@@ -33,7 +33,7 @@ const ResturantProfile = ({resturant,isSeller,onUpdate}:props) => {
             setIsOpen(data.resturant.isOpen);
         }catch(error:any){
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error?.response?.data?.message);
         }
     };
 
@@ -68,8 +68,6 @@ const ResturantProfile = ({resturant,isSeller,onUpdate}:props) => {
             )
         }
         <div className="p-5 space-y-4">
-            {
-                isSeller && (
                 <div className="flex items-start justify-between">
                     <div>
                         {
@@ -89,9 +87,8 @@ const ResturantProfile = ({resturant,isSeller,onUpdate}:props) => {
                         </div>
                     </div>
 
-                    <button onClick={()=> setEditMode(!editMode)} className="text-gray-500 hover:text-black"><BiEdit size={18}/></button>
-                </div>)
-            }
+                    {isSeller && (<button onClick={()=> setEditMode(!editMode)} className="text-gray-500 hover:text-black"><BiEdit size={18}/></button>)}
+                </div>
 
             {
                 editMode? (<textarea value={description} onChange={(e)=> setDescription(e.target.value)}

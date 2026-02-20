@@ -68,7 +68,7 @@ export const getAllItems = TryCatch(async(req: AuthenticatedRequest,res)=>{
         })
     }
 
-    const items = await MenuItems.find({resturant: id})
+    const items = await MenuItems.find({resturantId: id})
     res.json(items);
 })
 
@@ -90,7 +90,7 @@ export const deleteMenuItem = TryCatch(async(req:AuthenticatedRequest, res)=>{
 
     if(!item){
         return res.status(404).json({
-            message: "Np item found",
+            message: "No item found",
         });
     }
 
@@ -101,7 +101,7 @@ export const deleteMenuItem = TryCatch(async(req:AuthenticatedRequest, res)=>{
 
     if(!resturant){
         return res.status(404).json({
-            message: "Np resturant found",
+            message: "No resturant found",
         });
     }
 
@@ -130,7 +130,7 @@ export const toggleMenuItemAvalibility= TryCatch(async(req: AuthenticatedRequest
 
     if(!item){
         return res.status(404).json({
-            message: "Np item found",
+            message: "No item found",
         });
     }
 
@@ -141,7 +141,7 @@ export const toggleMenuItemAvalibility= TryCatch(async(req: AuthenticatedRequest
 
     if(!resturant){
         return res.status(404).json({
-            message: "Np resturant found",
+            message: "No resturant found",
         });
     }
 

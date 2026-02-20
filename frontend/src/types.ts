@@ -22,6 +22,10 @@ export interface AppContextType{
     location: LocationData | null;
     loadingLocation: boolean;
     city: string;
+    cart: ICart[] | null;
+    fetchCart: ()=> Promise<void>
+    subTotal: number;
+    quantity: number;
 }
 
 
@@ -42,4 +46,25 @@ export interface IResturant{
 
     isOpen: boolean;
     createdAt: Date;
+}
+
+export interface IMenuItem{
+    _id: string;
+    resturantId: string;
+    name: string;
+    description: string;
+    image?: string;
+    price: number;
+    isAvailable: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface ICart {
+    userId: string;
+    resturantId: string | IResturant;
+    itemId: string | IMenuItem;
+    quantity: number;
+    createdAt: Date;
+    updatedAt: Date;
 }

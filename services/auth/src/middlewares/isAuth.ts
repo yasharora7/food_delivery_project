@@ -37,6 +37,7 @@ export const isAuth = async (req:AuthenticatedRequest, res: Response, next: Next
         req.user = decoded.user;
         next();
     } catch (error: any) {
+        console.log(error)
         res.status(500).json({
             message: "please login - jwt error",
             error: error.message,

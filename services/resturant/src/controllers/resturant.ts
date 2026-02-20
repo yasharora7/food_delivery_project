@@ -5,6 +5,7 @@ import Resturant from "../models/resturant.js";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 
+
 export const addResturant = TryCatch(async(req: AuthenticatedRequest,res)=>{
     const user = req.user;
     if(!user){
@@ -14,7 +15,6 @@ export const addResturant = TryCatch(async(req: AuthenticatedRequest,res)=>{
     }
     const existingResturant = await Resturant.findOne({
         ownerId: user._id,
-
     });
 
     if(existingResturant){
@@ -133,6 +133,7 @@ export const updateStatusResturant = TryCatch(
 
         res.json({
             message: "Resturant status Updated",
+            resturant,
         });
     }
 );
@@ -160,6 +161,62 @@ export const updateResturant = TryCatch(async(req: AuthenticatedRequest, res)=>{
 
     res.json({
         message: "Resturant Updated",
+        resturant,
     });
 
 })
+
+export const getNearbyResturant = TryCatch(async(req,res)=>{
+    const {latitude, longitude, radius=5000, search=""} = req.query;
+
+    if(!latitude || !longitude){
+        return res.status(400).json({
+            message: "Latitude and Longitude are required",
+        });
+    }
+
+    const query : any ={
+        isVerified: true
+    }
+    if(search && typeof search==="string"){
+        query.name={$regex: search, $options: "i"};
+    }
+
+    const resturants = await Resturant.aggregate([
+        {
+            $geoNear:{
+                near:{
+                    type:"Point",
+                    coordinates:[Number(longitude), Number(latitude)]
+                },
+                distanceField:"distance",
+                maxDistance: Number(radius),
+                spherical: true,
+                query,
+            },
+        },
+        {
+            $sort: {
+                isOpen: -1,
+                distance: 1,
+            },
+        },
+        {
+            $addFields:{
+                distanceKm:{
+                    $round: [{$divide :["$distance",1000]},2]
+                },
+            },
+        },
+    ]);
+    res.json({
+        success: true,
+        count: resturants.length,
+        resturants,
+    });
+});
+
+export const fetchSingleResturant = TryCatch(async(req,res)=>{
+    const resturant= await Resturant.findById(req.params.id);
+    res.json(resturant);
+});

@@ -4,8 +4,6 @@ import jwt from 'jsonwebtoken';
 import TryCatch from '../middlewares/trycatch.js';
 import { AuthenticatedRequest } from '../middlewares/isAuth.js';
 import axios from 'axios';
-
-import { google } from 'googleapis';
 import { oauth2client } from '../config/googleConfig.js';
 
 export const loginUser = TryCatch(async(req,res) =>{
@@ -17,7 +15,15 @@ export const loginUser = TryCatch(async(req,res) =>{
         });
     }
 
-    const googleRes=await oauth2client.getToken(code)
+    // const googleRes=await oauth2client.getToken(code)
+
+    let googleRes;
+try {
+  googleRes = await oauth2client.getToken(code);
+} catch (err) {
+  console.error("Google Token Error:", err);
+  return res.status(500).json({ message: "Google token failed" });
+}
 
     oauth2client.setCredentials(googleRes.tokens);
 

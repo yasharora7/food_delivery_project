@@ -10,7 +10,7 @@ export const resturantService = "http://localhost:3001";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId="asdfgh">
+    <GoogleOAuthProvider clientId="">
       <AppProvider>
           <App />
       </AppProvider>
