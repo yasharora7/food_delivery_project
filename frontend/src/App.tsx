@@ -10,6 +10,9 @@ import { useAppData } from './context/AppContext'
 import Resturant from './pages/Resturant'
 import ResturantPage from './pages/ResturantPage'
 import Cart from './pages/Cart'
+import AddAddressPage from './pages/Address'
+import PaymentSuccess from './pages/PaymentSuccess'
+import OrderSuccess from './pages/OrderSuccess'
 
 const App = () => {
   const { user }= useAppData();
@@ -27,6 +30,9 @@ const App = () => {
         </Route>
         <Route element={<ProtectedRoute/>}>
           <Route path="/" element={<Home/>} />
+          <Route path="/paymentsuccess/:paymentId" element={<PaymentSuccess/>} />
+          <Route path="/ordersuccess" element={<OrderSuccess/>} />
+          <Route path="/address" element={<AddAddressPage/>} />
           <Route path="/resturant/:id" element={<ResturantPage/>} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/select-role" element={<SelectRole/>} />
